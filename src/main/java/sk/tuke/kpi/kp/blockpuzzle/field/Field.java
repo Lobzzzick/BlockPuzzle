@@ -44,6 +44,9 @@ public class Field {
         this.selected = selected;
     }
 
+    /**
+     * Проверка, что вся строка row заполнена (stone != null).
+     */
     public boolean checkLine(int row) {
         if (row < 0 || row >= rows) return false;
         for (int c = 0; c < cols; c++) {
@@ -54,6 +57,9 @@ public class Field {
         return true;
     }
 
+    /**
+     * Удалить все камни в строке row (установить stone = null).
+     */
     public void removeLine(int row) {
         if (row < 0 || row >= rows) return;
         for (int c = 0; c < cols; c++) {
@@ -61,32 +67,14 @@ public class Field {
         }
     }
 
-    /**
-     * Проверяет, что столбец col полностью заполнен (stone != null).
-     */
-    public boolean checkColumn(int col) {
-        if (col < 0 || col >= cols) return false;
-        for (int r = 0; r < rows; r++) {
-            if (blocks[r][col].getStone() == null) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 
     /**
-     * Удаляет все камни в столбце col (устанавливает stone = null).
+     * Проверить, что ячейка (row, col) пуста (stone == null).
      */
-    public void removeColumn(int col) {
-        if (col < 0 || col >= cols) return;
-        for (int r = 0; r < rows; r++) {
-            blocks[r][col].setStone(null);
-        }
-    }
-
     public boolean checkEmpty(int row, int col) {
         FieldBlock fb = getBlock(row, col);
-        if (fb == null) return false;
+        if (fb == null) return false; // за пределами поля
         return (fb.getStone() == null);
     }
 }
