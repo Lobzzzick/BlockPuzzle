@@ -1,8 +1,8 @@
 package sk.tuke.kpi.kp.blockpuzzle;
 
-import gamestudio.entity.Rating;
-import gamestudio.service.RatingService;
-import gamestudio.service.RatingServiceJDBC;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.Rating;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.RatingService;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.RatingServiceJDBC;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

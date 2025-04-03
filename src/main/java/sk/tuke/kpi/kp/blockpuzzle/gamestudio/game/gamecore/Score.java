@@ -1,4 +1,4 @@
-package sk.tuke.kpi.kp.blockpuzzle.game;
+package sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.gamecore;
 
 public class Score {
     private int points;

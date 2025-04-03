@@ -1,14 +1,12 @@
-package sk.tuke.kpi.kp.blockpuzzle.game;
+package sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.gamecore;
 
-import gamestudio.entity.Comment;
-import gamestudio.entity.Rating;
-import gamestudio.entity.Score;
-import gamestudio.service.*;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.Comment;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.Rating;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.Score;
 
-import sk.tuke.kpi.kp.blockpuzzle.BlockPuzzle;
-import sk.tuke.kpi.kp.blockpuzzle.block.Block;
-import sk.tuke.kpi.kp.blockpuzzle.field.FieldBlock;
-import sk.tuke.kpi.kp.blockpuzzle.field.Stone;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.block.Block;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.FieldBlock;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.*;
 
 import java.util.ArrayList;
 import java.util.Date;

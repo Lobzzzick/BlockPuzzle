@@ -1,9 +1,8 @@
-package gamestudio.service;
+package sk.tuke.kpi.kp.blockpuzzle.gamestudio.service;
 
-import gamestudio.entity.Rating;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.Rating;
 
 import java.sql.*;
-import java.util.Date;
 
 public class RatingServiceJDBC implements RatingService {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";

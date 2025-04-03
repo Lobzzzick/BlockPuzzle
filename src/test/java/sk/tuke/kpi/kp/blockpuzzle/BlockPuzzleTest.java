@@ -2,12 +2,12 @@ package sk.tuke.kpi.kp.blockpuzzle;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import sk.tuke.kpi.kp.blockpuzzle.BlockPuzzle;
-import sk.tuke.kpi.kp.blockpuzzle.block.Block;
-import sk.tuke.kpi.kp.blockpuzzle.block.BlockState;
-import sk.tuke.kpi.kp.blockpuzzle.field.Field;
-import sk.tuke.kpi.kp.blockpuzzle.field.Stone;
-import sk.tuke.kpi.kp.blockpuzzle.game.GameState;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.block.Block;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.block.BlockState;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.Field;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.Stone;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.gamecore.BlockPuzzle;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.gamecore.GameState;
 import java.util.ArrayList;
 import java.util.List;
 

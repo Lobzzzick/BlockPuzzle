@@ -1,4 +1,4 @@
-package sk.tuke.kpi.kp.blockpuzzle.field;
+package sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field;
 
 /**
  * Ячейка игрового поля. Хранит "камень" (stone), если ячейка занята.

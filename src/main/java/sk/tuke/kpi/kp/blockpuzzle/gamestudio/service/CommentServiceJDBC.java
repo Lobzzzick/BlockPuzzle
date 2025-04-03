@@ -1,6 +1,6 @@
-package gamestudio.service;
+package sk.tuke.kpi.kp.blockpuzzle.gamestudio.service;
 
-import gamestudio.entity.Comment;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.Comment;
 
 import java.sql.*;
 import java.util.ArrayList;

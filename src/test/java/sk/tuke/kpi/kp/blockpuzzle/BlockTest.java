@@ -2,8 +2,8 @@ package sk.tuke.kpi.kp.blockpuzzle;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import sk.tuke.kpi.kp.blockpuzzle.block.Block;
-import sk.tuke.kpi.kp.blockpuzzle.block.BlockState;
+import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.block.Block;
+
 import java.util.ArrayList;
 import java.util.List;
 

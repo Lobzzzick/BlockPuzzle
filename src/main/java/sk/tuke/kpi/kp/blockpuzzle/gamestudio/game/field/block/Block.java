@@ -1,4 +1,4 @@
-package sk.tuke.kpi.kp.blockpuzzle.block;
+package sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.block;
 
 import java.util.ArrayList;
 import java.util.List;
