@@ -25,7 +25,7 @@ public class Comment implements Serializable {
 
     @Id
     private String game;
-
+//
     @Id
     @Temporal(TemporalType.TIMESTAMP)            // <-- TIMESTAMP в основной сущности
     @Column(name = "commentedon")
