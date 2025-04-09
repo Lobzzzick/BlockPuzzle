@@ -1,0 +1,64 @@
+### ScoreServiceRest
+
+GET http://localhost:8080/api/score/BlockPuzzle
+Accept: application/json
+
+###  <-- ВАЖНО! Разделитель
+
+# генерируем уникальное время для Score
+@scoreNow = {{ $isoTimestamp }}
+
+POST http://localhost:8080/api/score
+Content-Type: application/json
+
+{
+  "game": "BlockPuzzle",
+  "player": "Alice",
+  "points": 1500,
+  "playedOn": "{{ scoreNow }}"
+}
+
+### CommentServiceRest
+
+GET http://localhost:8080/api/comment/BlockPuzzle
+Accept: application/json
+
+###  <-- ВАЖНО! Разделитель
+
+# генерируем уникальное время для Comment
+@commentNow = {{ $isoTimestamp }}
+
+POST http://localhost:8080/api/comment
+Content-Type: application/json
+
+{
+  "player": "Bob",
+  "game": "BlockPuzzle",
+  "comment": "Great game!",
+  "commentedOn": "{{ commentNow }}"
+}
+
+### RatingServiceRest
+
+GET http://localhost:8080/api/rating/average/BlockPuzzle
+Accept: application/json
+
+###  <-- ВАЖНО! Разделитель
+
+GET http://localhost:8080/api/rating/BlockPuzzle/Charlie
+Accept: application/json
+
+###  <-- ВАЖНО! Разделитель
+
+# генерируем уникальное время для Rating
+@ratingNow = {{ $isoTimestamp }}
+
+POST http://localhost:8080/api/rating
+Content-Type: application/json
+
+{
+  "player": "Charlie",
+  "game": "BlockPuzzle",
+  "rating": 4,
+  "ratedOn": "{{ ratingNow }}"
+}
