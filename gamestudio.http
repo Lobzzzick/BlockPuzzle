@@ -13,8 +13,8 @@ Content-Type: application/json
 
 {
   "game": "BlockPuzzle",
-  "player": "Alice",
-  "points": 1500,
+  "player": "Wice",
+  "points": 3000,
   "playedOn": "{{ scoreNow }}"
 }
 
