@@ -11,7 +11,7 @@ import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.CommentService;
 import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.CommentServiceJPA;
 import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.RatingService;
 import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.RatingServiceJPA;
-//
+
 @SpringBootApplication
 @EntityScan("sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity")
 public class GameStudioServer {
