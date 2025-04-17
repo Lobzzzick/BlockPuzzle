@@ -44,6 +44,8 @@
             <version>5.12.1</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
