@@ -386,6 +386,9 @@ public class ConsoleUI {
     }
 
     private static String repeatChar(char ch, int count) {
+        if (count < 0) {
+            count = 0;
+        }
         StringBuilder sb = new StringBuilder(count);
         for (int i = 0; i < count; i++) {
             sb.append(ch);
