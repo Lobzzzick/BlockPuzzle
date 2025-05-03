@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Game over – Block Puzzle</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body class="container center-screen">
+
+<h1>Game over!</h1>
+<p>Your score: <b th:text="${finalScore}">0</b></p>
+
+<form th:action="@{/gameover/playAgain}" method="post">
+  <button class="btn">Play again</button>
+</form>
+
+<hr/>
+
+<h2>Leave a comment</h2>
+<form th:action="@{/gameover/comment}" method="post">
+  <input name="text" placeholder="Your comment…" required/>
+  <button class="btn">Add</button>
+</form>
+
+<h2>Rate the game</h2>
+<p>Average <b th:text="${averageRating}">0</b> | Your rating <span th:text="${yourRating}">0</span></p>
+<form th:action="@{/gameover/rate}" method="post">
+  <select name="stars">
+    <option th:each="n:${#numbers.sequence(1,5)}"
+            th:value="${n}" th:text="${n}"
+            th:selected="${n == yourRating}">1</option>
+  </select>
+  <button class="btn small">Rate</button>
+</form>
+
+</body>
+</html>

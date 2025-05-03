@@ -157,50 +157,52 @@ public class BlockPuzzle {
         this.state = GameState.ENDEND;
     }
 
-    public boolean moveBlock(Block block, int startRow, int startCol) {
-        if (block == null) return false;
 
-        // Check if block can be placed
-        for (int[] coord : block.getShape()) {
-            int r = startRow + coord[1];
-            int c = startCol + coord[0];
-            if (r < 0 || r >= field.getRows() || c < 0 || c >= field.getCols()) {
-                return false;
-            }
-            if (!field.checkEmpty(r, c)) {
-                return false;
+    /** верхний‑левый квадратик формы – точка «якоря» для установки */
+    private int[] anchor(Block b){
+        int ax = Integer.MAX_VALUE, ay = Integer.MAX_VALUE;
+        for (int[] p : b.getShape()){
+            if (p[1] < ay || (p[1]==ay && p[0] < ax)){
+                ax = p[0]; ay = p[1];
             }
         }
+        return new int[]{ax, ay};
+    }
 
-        // Place block
-        for (int[] coord : block.getShape()) {
-            int r = startRow + coord[1];
-            int c = startCol + coord[0];
+    public boolean moveBlock(Block block,int startRow,int startCol){
+        if (block == null) return false;
+
+        /* смещаем форму так, чтобы anchor() попал именно в startRow/startCol */
+        int[] a = anchor(block);
+
+        // 1. проверяем границы и занятость
+        for (int[] p : block.getShape()){
+            int r = startRow + (p[1] - a[1]);
+            int c = startCol + (p[0] - a[0]);
+            if (r < 0 || r >= field.getRows() || c < 0 || c >= field.getCols()
+                    || !field.checkEmpty(r, c))
+                return false;
+        }
+
+        // 2. размещаем камни
+        for (int[] p : block.getShape()){
+            int r = startRow + (p[1] - a[1]);
+            int c = startCol + (p[0] - a[0]);
             field.getBlock(r, c).setStone(new Stone(block.getColor()));
         }
         block.setBlockState(BlockState.FIXED);
 
-        // Check full rows and columns
-        int linesCleared = 0;
-        for (int r = 0; r < field.getRows(); r++) {
-            if (field.checkLine(r)) {
-                field.removeLine(r);
-                linesCleared++;
-            }
-        }
+        // 3. очищаем заполненные ряды/столбцы и начисляем очки
+        int cleared = 0;
+        for (int r = 0; r < field.getRows(); r++)
+            if (field.checkLine(r)){ field.removeLine(r); cleared++; }
 
-        // Now check columns
-        for (int c = 0; c < field.getCols(); c++) {
-            if (field.checkColumn(c)) {
-                field.removeColumn(c);
-                linesCleared++;
-            }
-        }
+        for (int c = 0; c < field.getCols(); c++)
+            if (field.checkColumn(c)){ field.removeColumn(c); cleared++; }
 
-        // Score points and rotations
-        if (linesCleared > 0) {
-            score.addPoints(linesCleared * 100);
-            rotationsLeft += linesCleared * 2;
+        if (cleared > 0){
+            score.addPoints(cleared * 100);
+            rotationsLeft += cleared * 2;
         }
         return true;
     }

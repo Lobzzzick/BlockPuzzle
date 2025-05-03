@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Block Puzzle – start</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="center-screen">
+
+<h1>Block Puzzle</h1>
+
+<form th:action="@{/start}" method="post" class="start-form">
+  <input type="text" name="nick" placeholder="your nickname" required autofocus>
+  <button class="btn">Play!</button>
+</form>
+
+</body>
+</html>

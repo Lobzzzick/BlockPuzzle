@@ -1,0 +1,81 @@
+/* ─────────── палитра KPI ─────────── */
+:root{
+    --kpi-blue:#0065bd;
+    --kpi-light:#e6f0fb;
+    --text:#222;
+    --bg:#fafcff;
+    --border:#c7d8ed;
+    --radius:.4rem;
+    font-family:"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* ─────────── стартовый экран ─────────── */
+.center-screen{
+    height:100vh;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;text-align:center;
+}
+
+/* ─────────── контейнер ─────────── */
+.container{max-width:960px;margin:auto;padding:1rem}
+
+/* заголовок + ник */
+h1{color:var(--kpi-blue);margin:.2em 0;font-size:2.2rem;font-weight:600}
+.nick{font-size:1rem;color:#555;margin-left:.5rem}
+
+/* ─────────── игровое поле ─────────── */
+table.field{border-collapse:collapse;margin:1rem auto}
+table.field td{width:30px;height:30px;text-align:center;
+    border:1px solid var(--border);background:#fff}
+table.field a{display:block;width:100%;height:100%;line-height:30px;
+    text-decoration:none;color:var(--text);font-weight:600}
+/* ───────── цветные камни (6 цветов) ───────── */
+.stone{font-weight:700}
+.c1{color:#e74c3c}   /* красный */
+.c2{color:#27ae60}   /* зелёный */
+.c3{color:#f1c40f}   /* жёлтый */
+.c4{color:#2980b9}   /* синий */
+.c5{color:#8e44ad}   /* фиолетовый */
+.c6{color:#16a085}   /* циан / бирюзовый */
+
+/* подсветка возможной клетки при выбранном блоке */
+.highlight{background:#ffeab6}
+
+/* клетка, куда можно поставить выделенный блок */
+table.field a.highlight{background:#ffeab6}
+
+/* ─────────── панель блоков ─────────── */
+.panels{display:flex;gap:1rem;justify-content:center;
+    flex-wrap:wrap;margin-bottom:1rem}
+.panels>div{display:flex;flex-direction:column;align-items:center;
+    padding:.5rem;border:1px solid var(--border);
+    border-radius:var(--radius);background:#fff;min-width:110px}
+.panels>div.active{outline:3px solid var(--kpi-blue)}
+pre.block{background:var(--kpi-light);padding:.4rem .6rem;
+    border-radius:var(--radius);font-family:monospace;line-height:1;margin:0 0 .5rem}
+.used{color:#aaa;font-style:italic;font-size:.9rem}
+
+/* ─────────── кнопки ─────────── */
+.btn{background:var(--kpi-blue);color:#fff;padding:.45rem .9rem;
+    border:none;border-radius:var(--radius);text-decoration:none;
+    display:inline-block;font-size:.9rem;margin:.15rem 0;cursor:pointer}
+.btn:hover{filter:brightness(1.15)}
+.btn.small{padding:.25rem .55rem;font-size:.8rem}
+.inline{display:inline}
+
+/* ─────────── статус ─────────── */
+.status{display:flex;gap:1rem;justify-content:center;
+    align-items:center;flex-wrap:wrap;margin:1rem 0;font-size:1.05rem}
+
+/* ─────────── таблица top‑scores ─────────── */
+table.scores{border-collapse:collapse;width:100%;max-width:640px;margin:auto}
+table.scores th,table.scores td{border:1px solid var(--border);padding:.35rem .55rem}
+table.scores th{background:var(--kpi-light)}
+
+/* ─────────── комментарии ─────────── */
+.comments{list-style:none;padding:0;max-width:640px;margin:0 auto 1rem}
+.comments li{padding:.3rem 0;border-bottom:1px solid #eee}
+
+/* ─────────── горизонтальная линия ─────────── */
+hr{margin:2rem auto;border:0;border-top:1px solid var(--border);max-width:640px}
