@@ -1,81 +1,100 @@
-/* ─────────── палитра KPI ─────────── */
+/* default theme */
 :root{
-    --kpi-blue:#0065bd;
-    --kpi-light:#e6f0fb;
-    --text:#222;
-    --bg:#fafcff;
-    --border:#c7d8ed;
-    --radius:.4rem;
+    --c-bg:#fafcff; --c-text:#222;
+    --c-accent:#0065bd; --c-accent2:#e6f0fb;
+    --c-border:#c7d8ed; --radius:.4rem;
+
     font-family:"Segoe UI",sans-serif;
-    background:var(--bg);
-    color:var(--text);
+    background:var(--c-bg); color:var(--c-text);
 }
 
-/* ─────────── стартовый экран ─────────── */
-.center-screen{
-    height:100vh;display:flex;flex-direction:column;
-    justify-content:center;align-items:center;text-align:center;
+/* ---------- DARK ---------- */
+html.theme-dark{
+    --c-bg:#1f1f1f; --c-text:#e8e8e8;
+    --c-accent:#3a7bd5; --c-accent2:#2e2e2e;
+    --c-border:#444;
+}
+/* ---------- FEI ---------- */
+html.theme-fei{
+    --c-bg:#ffffff; --c-text:#000;
+    --c-accent:#d38d00; --c-accent2:#fff4e6;
+    --c-border:#d38d0044;
+}
+/* ---------- FEI‑DARK ---------- */
+html.theme-feidark{
+    --c-bg:#2b2b2b;
+    --c-text:#f0f0f0;
+    --c-accent:#d38d00;
+    --c-accent2:#3b2f17;
+    --c-border:#d38d0044;
 }
 
-/* ─────────── контейнер ─────────── */
+/*  base */
+.center-screen{height:100vh;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;text-align:center}
 .container{max-width:960px;margin:auto;padding:1rem}
 
-/* заголовок + ник */
-h1{color:var(--kpi-blue);margin:.2em 0;font-size:2.2rem;font-weight:600}
+/* nickname */
+h1{color:var(--c-accent);margin:.2em 0;font-size:2.2rem;font-weight:600}
 .nick{font-size:1rem;color:#555;margin-left:.5rem}
 
-/* ─────────── игровое поле ─────────── */
+/*«Theme» */
+.theme-switch{position:absolute;top:1rem;right:1rem}
+.theme-switch details{display:inline-block}
+.theme-switch summary{list-style:none;cursor:pointer}
+.theme-switch ul{list-style:none;margin:0;padding:.3rem;
+    background:var(--c-accent2);border:1px solid var(--c-border);
+    position:absolute;z-index:1000;min-width:90px}
+.theme-switch ul li a{display:block;padding:.2rem .4rem;color:var(--c-text);
+    text-decoration:none}
+.theme-switch ul li a:hover{background:var(--c-border)}
+
+/*game field*/
 table.field{border-collapse:collapse;margin:1rem auto}
 table.field td{width:30px;height:30px;text-align:center;
-    border:1px solid var(--border);background:#fff}
+    border:1px solid var(--c-border);background:#fff}
+html.theme-dark table.field td{background:var(--c-accent2)}
 table.field a{display:block;width:100%;height:100%;line-height:30px;
-    text-decoration:none;color:var(--text);font-weight:600}
-/* ───────── цветные камни (6 цветов) ───────── */
-.stone{font-weight:700}
-.c1{color:#e74c3c}   /* красный */
-.c2{color:#27ae60}   /* зелёный */
-.c3{color:#f1c40f}   /* жёлтый */
-.c4{color:#2980b9}   /* синий */
-.c5{color:#8e44ad}   /* фиолетовый */
-.c6{color:#16a085}   /* циан / бирюзовый */
+    text-decoration:none;color:var(--c-text);font-weight:600}
 
-/* подсветка возможной клетки при выбранном блоке */
+/* stones */
+.stone{font-weight:700}
+.c1{color:#e74c3c}.c2{color:#27ae60}.c3{color:#f1c40f}
+.c4{color:#2980b9}.c5{color:#8e44ad}.c6{color:#16a085}
 .highlight{background:#ffeab6}
 
-/* клетка, куда можно поставить выделенный блок */
-table.field a.highlight{background:#ffeab6}
-
-/* ─────────── панель блоков ─────────── */
+/* blocks panels */
 .panels{display:flex;gap:1rem;justify-content:center;
     flex-wrap:wrap;margin-bottom:1rem}
 .panels>div{display:flex;flex-direction:column;align-items:center;
-    padding:.5rem;border:1px solid var(--border);
-    border-radius:var(--radius);background:#fff;min-width:110px}
-.panels>div.active{outline:3px solid var(--kpi-blue)}
-pre.block{background:var(--kpi-light);padding:.4rem .6rem;
-    border-radius:var(--radius);font-family:monospace;line-height:1;margin:0 0 .5rem}
+    padding:.5rem;border:1px solid var(--c-border);border-radius:var(--radius);
+    background:var(--c-accent2);min-width:110px}
+.panels>div.active{outline:3px solid var(--c-accent)}
+pre.block{background:var(--c-accent2);padding:.4rem .6rem;border-radius:var(--radius);
+    font-family:monospace;line-height:1;margin:0 0 .5rem}
 .used{color:#aaa;font-style:italic;font-size:.9rem}
 
-/* ─────────── кнопки ─────────── */
-.btn{background:var(--kpi-blue);color:#fff;padding:.45rem .9rem;
-    border:none;border-radius:var(--radius);text-decoration:none;
-    display:inline-block;font-size:.9rem;margin:.15rem 0;cursor:pointer}
+/* buttons */
+.btn{background:var(--c-accent);color:#fff;padding:.45rem .9rem;border:none;
+    border-radius:var(--radius);text-decoration:none;display:inline-block;
+    font-size:.9rem;margin:.15rem 0;cursor:pointer}
 .btn:hover{filter:brightness(1.15)}
 .btn.small{padding:.25rem .55rem;font-size:.8rem}
 .inline{display:inline}
 
-/* ─────────── статус ─────────── */
-.status{display:flex;gap:1rem;justify-content:center;
-    align-items:center;flex-wrap:wrap;margin:1rem 0;font-size:1.05rem}
+/* status */
+.status{display:flex;gap:1rem;justify-content:center;align-items:center;
+    flex-wrap:wrap;margin:1rem 0;font-size:1.05rem}
 
-/* ─────────── таблица top‑scores ─────────── */
+/* tables */
 table.scores{border-collapse:collapse;width:100%;max-width:640px;margin:auto}
-table.scores th,table.scores td{border:1px solid var(--border);padding:.35rem .55rem}
-table.scores th{background:var(--kpi-light)}
+table.scores th,table.scores td{border:1px solid var(--c-border);
+    padding:.35rem .55rem}
+table.scores th{background:var(--c-accent2)}
 
-/* ─────────── комментарии ─────────── */
+/* comments */
 .comments{list-style:none;padding:0;max-width:640px;margin:0 auto 1rem}
-.comments li{padding:.3rem 0;border-bottom:1px solid #eee}
+.comments li{padding:.3rem 0;border-bottom:1px solid var(--c-border)}
 
-/* ─────────── горизонтальная линия ─────────── */
-hr{margin:2rem auto;border:0;border-top:1px solid var(--border);max-width:640px}
+/* hr */
+hr{margin:2rem auto;border:0;border-top:1px solid var(--c-border);max-width:640px}

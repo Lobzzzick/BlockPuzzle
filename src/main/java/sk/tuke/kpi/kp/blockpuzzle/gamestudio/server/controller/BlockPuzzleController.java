@@ -10,138 +10,160 @@ import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.*;
 import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.gamecore.BlockPuzzle;
 import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.IntStream;
 
 @Controller
-@Scope(WebApplicationContext.SCOPE_SESSION)          // одна сессия — одна партия
+@Scope(WebApplicationContext.SCOPE_SESSION)
+@SessionAttributes("theme")
 public class BlockPuzzleController {
 
-    private static final String GAME_NAME = "BlockPuzzle";
+    /* konst */
+    private static final String GAME = "BlockPuzzle";
+    private static final Set<String> THEMES = Set.of("light","dark","fei","feidark");
 
-    /* --------‑ состояние сессии ‑-------- */
-    private BlockPuzzle game        = new BlockPuzzle();
-    private String      playerName  = "anonymous";
-    private Integer     selectedIdx = null;
-    private boolean     scoreSaved  = false;          // ⇐ новое: чтобы «не дублировать» запись
+    /* session stats*/
+    private BlockPuzzle game = new BlockPuzzle();
+    private String  nick       = "anonymous";
+    private Integer selected   = null;
+    private boolean scoreSaved = false;
+    private String  theme      = "light";
 
-    /* --------‑ DI сервисы ‑-------- */
+    /* services */
     @Autowired private ScoreService   scoreService;
     @Autowired private CommentService commentService;
     @Autowired private RatingService  ratingService;
 
-    /* ---------- стартовое меню ---------- */
-    @GetMapping("/")  public String menu() { return "index"; }
+    @ModelAttribute("theme")
+    public String exposeTheme() { return theme; }
+
+    /* start menu*/
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
 
     @PostMapping("/start")
     public String start(@RequestParam String nick) {
-        if (!nick.isBlank()) playerName = nick.trim();
-        game = new BlockPuzzle();
-        selectedIdx = null;
-        scoreSaved  = false;
+        if (!nick.isBlank()) this.nick = nick.trim();
+        game = new BlockPuzzle(); selected = null; scoreSaved = false;
         return "redirect:/bpuzzle";
     }
 
-    /* ---------- игровая страница ---------- */
-    @GetMapping("/bpuzzle")
-    public String bpuzzle(@RequestParam(value="command", required=false) String cmd,
-                          @RequestParam(value="i",       required=false) Integer i,
-                          @RequestParam(value="row",     required=false) Integer row,
-                          @RequestParam(value="col",     required=false) Integer col,
-                          Model model) {
+    /* theme change */
+    @GetMapping("/theme/{t}")
+    public String setTheme(@PathVariable String t,
+                           @RequestHeader(value = "referer", required = false) String ref,
+                           HttpSession session) {
+        if (THEMES.contains(t)) {
+            this.theme = t;
+            session.setAttribute("theme", t);
+        }
+        return "redirect:" + (ref != null ? ref : "/");
+    }
 
-        switch (cmd == null ? "" : cmd) {
+    /*game page*/
+    @GetMapping("/bpuzzle")
+    public String play(@RequestParam(value="command", required=false) String cmd,
+                       @RequestParam(value="i",       required=false) Integer i,
+                       @RequestParam(value="row",     required=false) Integer r,
+                       @RequestParam(value="col",     required=false) Integer c,
+                       Model m) {
+
+        switch (cmd==null?"":cmd) {
             case "rotateLeft"  -> { if (i != null) game.rotateBlockLeftAtIndex(i); }
             case "rotateRight" -> { if (i != null) game.rotateBlockRightAtIndex(i); }
-            case "select"      -> { if (i != null) selectedIdx = i; }
-            case "place"       -> {
-                if (selectedIdx != null && row != null && col != null &&
-                        game.placeBlockAtIndex(selectedIdx, row, col)) {
-                    selectedIdx = null;
-                }
+            case "select"      -> { if (i != null) selected = i; }
+            case "place" -> {
+                if (selected!=null && r!=null && c!=null &&
+                        game.placeBlockAtIndex(selected, r, c))
+                    selected = null;
             }
         }
 
         game.updateGameState();
+        if (game.isGameOver()) { saveScore(); return "redirect:/gameover"; }
 
-        /* ----- если ходов нет → фиксируем счёт и переходим на /gameover ----- */
-        if (game.isGameOver()) {
-            saveScoreOnce();
-            return "redirect:/gameover";
-        }
-
-        fillModelForGame(model);
+        fillForGame(m);                                // кладём theme → сеанс
         return "bpuzzle";
     }
 
-    /* ---------- GAME OVER ---------- */
-    @GetMapping("/gameover")
-    public String gameOver(Model model) {
-        if (!game.isGameOver()) return "redirect:/bpuzzle";
-        saveScoreOnce();                       // гарантируем запись
 
-        model.addAttribute("finalScore", game.getScore().getPoints());
-        fillServiceData(model);
+    @PostMapping("/bpuzzle/comment")
+    public String addComment(@RequestParam String text) {
+        if (!text.isBlank())
+            commentService.addComment(new Comment(nick, GAME, text.trim(), new Date()));
+        return "redirect:/bpuzzle";
+    }
+
+    @PostMapping("/bpuzzle/rate")
+    public String rate(@RequestParam int stars) {
+        if (stars>=1 && stars<=5)
+            ratingService.setRating(new Rating(nick, GAME, stars, new Date()));
+        return "redirect:/bpuzzle";
+    }
+
+    /*GAME OVER*/
+    @GetMapping("/gameover")
+    public String gameOver(Model m) {
+        if (!game.isGameOver()) return "redirect:/bpuzzle";
+        saveScore();
+        m.addAttribute("finalScore", game.getScore().getPoints());
+        fillService(m);
+        m.addAttribute("theme", theme);
         return "gameover";
     }
 
     @PostMapping("/gameover/playAgain")
     public String playAgain() {
-        game = new BlockPuzzle();
-        selectedIdx = null;
-        scoreSaved  = false;
+        game = new BlockPuzzle(); selected = null; scoreSaved = false;
         return "redirect:/bpuzzle";
     }
 
-    /* ---------- формы на странице gameover ---------- */
     @PostMapping("/gameover/comment")
-    public String addComment(@RequestParam String text) {
+    public String addCommentGO(@RequestParam String text) {
         if (!text.isBlank())
-            commentService.addComment(
-                    new Comment(playerName, GAME_NAME, text.trim(), new Date()));
+            commentService.addComment(new Comment(nick, GAME, text.trim(), new Date()));
         return "redirect:/gameover";
     }
 
     @PostMapping("/gameover/rate")
-    public String rate(@RequestParam int stars) {
-        if (stars >= 1 && stars <= 5)
-            ratingService.setRating(
-                    new Rating(playerName, GAME_NAME, stars, new Date()));
+    public String rateGO(@RequestParam int stars) {
+        if (stars>=1 && stars<=5)
+            ratingService.setRating(new Rating(nick, GAME, stars, new Date()));
         return "redirect:/gameover";
     }
 
-    /* ---------- helpers ---------- */
-
-    /** Записывает счёт в БД единожды. */
-    private void saveScoreOnce() {
+    /* support functions */
+    private void saveScore() {
         if (scoreSaved) return;
-        scoreService.addScore(new Score(
-                GAME_NAME, playerName, game.getScore().getPoints(), new Date()));
+        scoreService.addScore(new Score(GAME, nick, game.getScore().getPoints(), new Date()));
         scoreSaved = true;
     }
 
-    private void fillModelForGame(Model m) {
-        m.addAttribute("playerName",   playerName);
-        m.addAttribute("selectedIdx",  selectedIdx);
-        m.addAttribute("field",        game.getField());
+    private void fillForGame(Model m) {
+        m.addAttribute("playerName", nick);
+        m.addAttribute("selectedIdx", selected);
+        m.addAttribute("field", game.getField());
         m.addAttribute("currentBlocks", Arrays.asList(game.getCurrentBlocks()));
-        m.addAttribute("currentScore",  game.getScore().getPoints());
+        m.addAttribute("currentScore", game.getScore().getPoints());
         m.addAttribute("rotationsLeft", game.getRotationsLeft());
-        m.addAttribute("gameOver",      false);
+        m.addAttribute("gameOver", false);
 
         m.addAttribute("rowIdx",
                 IntStream.range(0, game.getField().getRows()).boxed().toList());
         m.addAttribute("colIdx",
                 IntStream.range(0, game.getField().getCols()).boxed().toList());
 
-        fillServiceData(m);
+        m.addAttribute("theme", theme);
+        fillService(m);
     }
 
-    private void fillServiceData(Model m) {
-        m.addAttribute("topScores",     scoreService.getTopScores(GAME_NAME));
-        m.addAttribute("comments",      commentService.getComments(GAME_NAME));
-        m.addAttribute("averageRating", ratingService.getAverageRating(GAME_NAME));
-        m.addAttribute("yourRating",
-                ratingService.getRating(GAME_NAME, playerName));
+    private void fillService(Model m) {
+        m.addAttribute("topScores",     scoreService.getTopScores(GAME));
+        m.addAttribute("comments",      commentService.getComments(GAME));
+        m.addAttribute("averageRating", ratingService.getAverageRating(GAME));
+        m.addAttribute("yourRating",    ratingService.getRating(GAME, nick));
     }
 }

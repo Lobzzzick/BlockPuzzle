@@ -1,14 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"  th:classappend="'theme-'+${theme}"><head>
+
   <meta charset="UTF-8"/>
-  <title>Game over – Block Puzzle</title>
+  <title>Game over – Block Puzzle</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
+
 <body class="container center-screen">
 
-<h1>Game over!</h1>
-<p>Your score: <b th:text="${finalScore}">0</b></p>
+<div class="theme-switch">
+  <details>
+    <summary class="btn small">Theme ▾</summary>
+    <ul>
+      <li><a th:href="@{/theme/light}">Light</a></li>
+      <li><a th:href="@{/theme/dark}">Dark</a></li>
+      <li><a th:href="@{/theme/fei}">FEI</a></li>
+      <li><a th:href="@{/theme/feidark}">FEI dark</a></li>
+    </ul>
+  </details>
+</div>
+
+<h1>Game over!</h1>
+<p>Your score: <b th:text="${finalScore}">0</b></p>
 
 <form th:action="@{/gameover/playAgain}" method="post">
   <button class="btn">Play again</button>
@@ -23,7 +36,7 @@
 </form>
 
 <h2>Rate the game</h2>
-<p>Average <b th:text="${averageRating}">0</b> | Your rating <span th:text="${yourRating}">0</span></p>
+<p>Average <b th:text="${averageRating}">0</b> | Your rating <span th:text="${yourRating}">0</span></p>
 <form th:action="@{/gameover/rate}" method="post">
   <select name="stars">
     <option th:each="n:${#numbers.sequence(1,5)}"
