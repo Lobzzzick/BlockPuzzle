@@ -1,5 +1,6 @@
 Odkaz na video (1 odovzdanie): https://youtu.be/J24VXycysmU
 Odkaz na video (2 odovzdanie): https://youtu.be/eLu3tP_CYH4
+Odkaz na video (3 odovzdanie): https://youtu.be/opMR5znFpEo
 subor design obsahuje navrhovi diagramy.
 
 Block Puzzle je konzolová hra, v ktorej hráč vypĺňa hraciu plochu 10×10 rôznymi tvarmi (blokmi). 
