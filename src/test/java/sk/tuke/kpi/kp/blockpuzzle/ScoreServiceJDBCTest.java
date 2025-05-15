@@ -1,7 +1,7 @@
 package sk.tuke.kpi.kp.blockpuzzle;
 
-import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.Score;
-import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.ScoreServiceJDBC;
+import blockpuzzle.game.entity.Score;
+import blockpuzzle.game.service.ScoreServiceJDBC;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" th:classappend="'theme-'+${theme}">
+
+<head>
+  <meta charset="UTF-8"/>
+  <title>Block Puzzle</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+
+<body class="container">
+
+<header>
+  <h1>Block Puzzle</h1>
+  <span class="nick" th:text="${playerName}">anon</span>
+
+  <!-- theme switch -->
+  <div class="theme-switch">
+    <details>
+      <summary class="btn small">Theme ▾</summary>
+      <ul>
+        <li><a th:href="@{/theme/light}">Light</a></li>
+        <li><a th:href="@{/theme/dark}">Dark</a></li>
+        <li><a th:href="@{/theme/fei}">FEI</a></li>
+        <li><a th:href="@{/theme/feidark}">FEI dark</a></li>
+      </ul>
+    </details>
+  </div>
+</header>
+
+<!-- game field -->
+<table class="field">
+  <tbody>
+  <tr th:each="r : ${rowIdx}">
+    <td th:each="c : ${colIdx}"
+        th:utext="${@renderer.cell(field, r, c, selectedIdx)}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- blocks panel -->
+<section class="panels">
+  <div th:each="blk,stat : ${currentBlocks}"
+       th:classappend="${stat.index == selectedIdx}? ' active' : ''">
+    <div th:utext="${@renderer.block(blk)}"></div>
+
+    <div th:if="${blk != null}">
+      <a class="btn" th:href="@{/bpuzzle(command='select',i=${stat.index})}">Select</a>
+      <a class="btn small" th:href="@{/bpuzzle(command='rotateLeft',i=${stat.index})}">⟲</a>
+      <a class="btn small" th:href="@{/bpuzzle(command='rotateRight',i=${stat.index})}">⟳</a>
+    </div>
+    <div th:if="${blk == null}" class="used">USED</div>
+  </div>
+</section>
+
+<!-- status -->
+<section class="status">
+  Score <b th:text="${currentScore}">0</b>   |
+  Rotations <b th:text="${rotationsLeft}">0</b>
+</section>
+
+<hr/>
+
+<!-- top‑10 -->
+<h2>Top 10</h2>
+<table class="scores">
+  <thead><tr><th>#</th><th>Player</th><th>Points</th><th>Date</th></tr></thead>
+  <tbody>
+  <tr th:each="s,iter : ${topScores}">
+    <td th:text="${iter.index + 1}"></td>
+    <td th:text="${s.player}"></td>
+    <td th:text="${s.points}"></td>
+    <td th:text="${#dates.format(s.playedOn,'dd.MM.yyyy HH:mm')}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- comments -->
+<h2>Comments</h2>
+<ul class="comments">
+  <li th:each="c : ${comments}">
+    <b th:text="${c.player}"></b>: <span th:text="${c.comment}"></span>
+  </li>
+</ul>
+<form th:action="@{/bpuzzle/comment}" method="post">
+  <input name="text" placeholder="Your comment…" required/>
+  <button class="btn">Add</button>
+</form>
+
+<!-- rate -->
+<h2>Rating</h2>
+<p>Average <b th:text="${averageRating}">0</b></p>
+<p>Your rating <span th:text="${yourRating}">0</span></p>
+<form th:action="@{/bpuzzle/rate}" method="post">
+  <select name="stars">
+    <option th:each="n : ${#numbers.sequence(1,5)}"
+            th:value="${n}" th:text="${n}"
+            th:selected="${n == yourRating}">1</option>
+  </select>
+  <button class="btn small">Rate</button>
+</form>
+
+</body>
+</html>

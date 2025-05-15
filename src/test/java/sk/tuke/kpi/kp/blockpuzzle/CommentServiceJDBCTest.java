@@ -1,8 +1,8 @@
 package sk.tuke.kpi.kp.blockpuzzle;
 
-import sk.tuke.kpi.kp.blockpuzzle.gamestudio.entity.Comment;
-import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.CommentService;
-import sk.tuke.kpi.kp.blockpuzzle.gamestudio.service.CommentServiceJDBC;
+import blockpuzzle.game.entity.Comment;
+import blockpuzzle.game.service.CommentService;
+import blockpuzzle.game.service.CommentServiceJDBC;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

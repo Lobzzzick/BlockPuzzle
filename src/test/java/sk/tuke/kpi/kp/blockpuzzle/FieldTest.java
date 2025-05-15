@@ -2,9 +2,9 @@ package sk.tuke.kpi.kp.blockpuzzle;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.Field;
-import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.FieldBlock;
-import sk.tuke.kpi.kp.blockpuzzle.gamestudio.game.field.Stone;
+import blockpuzzle.game.game.field.Field;
+import blockpuzzle.game.game.field.FieldBlock;
+import blockpuzzle.game.game.field.Stone;
 
 public class FieldTest {
 

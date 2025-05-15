@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" th:classappend="'theme-'+${theme}">
+
+<head>
+  <meta charset="utf-8">
+  <title>Block Puzzle – start</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body class="center-screen">
+
+<h1>Block Puzzle</h1>
+
+<!--<div class="theme-switch">-->
+<!--  <details>-->
+<!--    <summary class="btn small">Theme ▾</summary>-->
+<!--    <ul>-->
+<!--      <li><a th:href="@{/theme/light}">Light</a></li>-->
+<!--      <li><a th:href="@{/theme/dark}">Dark</a></li>-->
+<!--      <li><a th:href="@{/theme/fei}">FEI</a></li>-->
+<!--    </ul>-->
+<!--  </details>-->
+<!--</div>-->
+
+<form th:action="@{/start}" method="post" class="start-form">
+  <input type="text" name="nick" placeholder="your nickname" required autofocus>
+  <button class="btn">Play!</button>
+</form>
+
+</body>
+</html>
